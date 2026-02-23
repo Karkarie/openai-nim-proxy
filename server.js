@@ -22,14 +22,25 @@ const ENABLE_THINKING_MODE = false; // Set to true to enable chat_template_kwarg
 
 // Model mapping (adjust based on available NIM models)
 const MODEL_MAPPING = {
-  'gpt-3.5-turbo': 'zai-org/GLM-5',   // 🔥 GLM-5 como modelo principal
-  'gpt-4': 'zai-org/GLM-5',
-  'gpt-4-turbo': 'zai-org/GLM-5',
-  'gpt-4o': 'zai-org/GLM-5',
-  'claude-3-opus': 'zai-org/GLM-5',
-  'claude-3-sonnet': 'zai-org/GLM-5',
-  'gemini-pro': 'zai-org/GLM-5'
+  'gpt-3.5-turbo': 'z-ai/glm5',   // 🔥 GLM-5 como modelo principal
+  'gpt-4': 'z-ai/glm5',
+  'gpt-4-turbo': 'z-ai/glm5',
+  'gpt-4o': 'z-ai/glm5',
+  'claude-3-opus': 'z-ai/glm5',
+  'claude-3-sonnet': 'z-ai/glm5',
+  'gemini-pro': 'z-ai/glm5'
 };
+
+// Root POST - Janitor AI "Proxy" mode sends requests here
+app.post('/', async (req, res) => {
+  req.url = '/v1/chat/completions';
+  app.handle(req, res);
+});
+
+// Root GET
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', service: 'OpenAI to NVIDIA NIM Proxy' });
+});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
