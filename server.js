@@ -22,13 +22,13 @@ const ENABLE_THINKING_MODE = false; // Set to true to enable chat_template_kwarg
 
 // Model mapping (adjust based on available NIM models)
 const MODEL_MAPPING = {
-  'gpt-3.5-turbo': 'z-ai/glm5',   // 🔥 GLM-5 como modelo principal
-  'gpt-4': 'z-ai/glm5',
-  'gpt-4-turbo': 'z-ai/glm5',
-  'gpt-4o': 'z-ai/glm5',
-  'claude-3-opus': 'z-ai/glm5',
-  'claude-3-sonnet': 'z-ai/glm5',
-  'gemini-pro': 'z-ai/glm5'
+  'gpt-3.5-turbo': 'meta/llama-3.1-8b-instruct',       // rápido, de respaldo
+  'gpt-4': 'deepseek-ai/deepseek-v3_1',                // DeepSeek V3.1
+  'gpt-4-turbo': 'deepseek-ai/deepseek-v3_1-terminus', // DeepSeek V3.1 Terminus
+  'gpt-4o': 'deepseek-ai/deepseek-v3_2',               // DeepSeek V3.2
+  'claude-3-opus': 'z-ai/glm5',                        // GLM-5
+  'claude-3-sonnet': 'meta/llama-3.1-8b-instruct',
+  'gemini-pro': 'meta/llama-3.1-8b-instruct'
 };
 
 // Root POST - Janitor AI "Proxy" mode sends requests here
@@ -109,7 +109,7 @@ app.post('/v1/chat/completions', async (req, res) => {
       temperature: temperature || 0.6,
       max_tokens: max_tokens || 9024,
       extra_body: ENABLE_THINKING_MODE ? { chat_template_kwargs: { thinking: true } } : undefined,
-      stream: stream || true
+      stream: stream || false
     };
     
     // Make request to NVIDIA NIM API
